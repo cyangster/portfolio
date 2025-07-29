@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chris Yang | Personal Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <!-- Color Bands -->
+    <div class="color-band band-1"></div>
+    <div class="color-band band-2"></div>
+    <div class="color-band band-3"></div>
+    <div class="color-band band-4"></div>
+    
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">CY</div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home/Hero Section -->
+    <section id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="profile-container">
+                    <div class="profile-image">
+                        <img src="https://cdn.glitch.global/56504f83-839d-433a-919f-9169cfde4c5e/picofme.jpg?v=1729114143613" alt="Chris Yang headshot">
+                    </div>
+                    <div class="profile-info">
+                        <h1 class="hero-title">Chris Yang</h1>
+                        <p class="hero-subtitle">Computer Science Student</p>
+                        <p class="hero-location">Boston College, Chestnut Hill, MA</p>
+                    </div>
+                </div>
+                <div class="biography">
+                    <p>Chris Yang is a student at Boston College pursuing a BA in computer science and a minor in data science in the Morrissey College of Arts and Science. Born in South Korea and moved to New York, he has always been interested in technology and the way innovation makes life easier for everyone around him. In light of this, Chris works for the Boston College Sports Team as one of their Auxiliary Technology Technicians and as O'neill Library's Walk in Help Desk Technology Consultant. Chris aspires to work in the tech field but more so hand in hand with customers and ensuring their day to day issues are corrected.</p>
+                </div>
+                <div class="timeline">
+                    <h3 class="timeline-title">Education & Experience</h3>
+                    <ul class="timeline-events">
+                        <li><span class="period">2018-2022</span> Bayside High School</li>
+                        <li><span class="period">2022-2026</span> Boston College</li>
+                        <li><span class="period">2022 - Present</span> Auxiliary Tech Team for BC Sports</li>
+                        <li><span class="period">2024 - Present</span> Eagle Tech Information Services</li>
+                    </ul>
+                </div>
+                
+                <div class="skills-section">
+                    <h3 class="timeline-title">Skills</h3>
+                    <div class="skills-container">
+                        <div class="skill-tag"><i class="fab fa-python"></i>Python</div>
+                        <div class="skill-tag"><i class="fab fa-js"></i>JavaScript</div>
+                        <div class="skill-tag"><i class="fab fa-html5"></i>HTML</div>
+                        <div class="skill-tag"><i class="fab fa-css3-alt"></i>CSS</div>
+                        <div class="skill-tag"><i class="fab fa-react"></i>React</div>
+                        <div class="skill-tag"><i class="far fa-file-word"></i>Microsoft Office</div>
+                        <div class="skill-tag"><i class="fas fa-globe"></i>Web Development</div>
+                        <div class="skill-tag"><i class="fas fa-code"></i>Software Development</div>
+                        <div class="skill-tag"><i class="fab fa-aws"></i>Amazon Lambda</div>
+                        <div class="skill-tag"><i class="fab fa-aws"></i>Amazon Lex</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://cdn.glitch.global/b3a68442-f606-4884-8391-6c7d91f35cc4/Screenshot%202024-12-02%20175609.png?v=1733180330877" alt="Nutrition Tracker Dashboard">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Student Nutrition Tracker</h3>
+                        <p class="project-description">In this collaborative project, our team developed a comprehensive nutrition planning and tracking website specifically designed for busy college students managing complex schedules...</p>
+                        <a href="https://bcdiningmenutracker.glitch.me/src/home.html" target="_blank" class="project-link">View Project</a>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://cdn.glitch.global/b3a68442-f606-4884-8391-6c7d91f35cc4/Screenshot%202024-12-29%20234403.png?v=1735533917140" alt="Tic Tac Toe Game Interface">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Tic Tac Toe</h3>
+                        <p class="project-description">In this project, I developed an interactive web-based Tic Tac Toe game using JavaScript, HTML, and CSS. The game features a clean, user-friendly interface where players can take turns...</p>
+                        <a href="https://tictactoechrisyang.glitch.me/" target="_blank" class="project-link">View Project</a>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://cdn.glitch.global/56504f83-839d-433a-919f-9169cfde4c5e/chatbot.png?v=1729187785430" alt="MCAS Chatbot Interface">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">MCAS Chatbot</h3>
+                        <p class="project-description">In this project I created a chatbot that would help students in the Morrissey College of Arts and Sciences find out how many credits they need in order to graduate in a 4 year undergrade...</p>
+                        <a href="#" class="project-link view-details" data-project="mcas-chatbot">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://cdn.glitch.global/56504f83-839d-433a-919f-9169cfde4c5e/graph.png?v=1729190065699" alt="Logistic Regression Graphs">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Logistic Regression Test</h3>
+                        <p class="project-description">In this project, I used a loan dataset and by utilizing Python, Pandas, NumPy, and scikit I was able to train the given data and test it to see the difference in the scores of machine learning algorithms...</p>
+                        <a href="#" class="project-link view-details" data-project="logistic-regression">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-info">
+                <p><strong><i class="far fa-envelope"></i> Email:</strong> <a href="mailto:yangbgd@bc.edu" class="contact-link">yangbgd@bc.edu</a></p>
+                <p><strong><i class="fas fa-phone-alt"></i> Phone:</strong> <a href="tel:+9173919072" class="contact-link">(917) 391-9072</a></p>
+                <p><strong><i class="fas fa-map-marker-alt"></i> Location:</strong> Boston College, Chestnut Hill, MA 02467</p>
+                <div class="social-links">
+                    <a href="https://github.com/cyangster" target="_blank" class="social-link"><i class="fab fa-github"></i> GitHub</a>
+                    <a href="https://www.linkedin.com/in/chrisyang12/" target="_blank" class="social-link"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Details Modal -->
+    <div class="modal" id="project-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <h2 id="modal-title"></h2>
+                <div id="modal-image" class="modal-image"></div>
+                <p id="modal-description"></p>
+                <div id="modal-link-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Chris Yang. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
