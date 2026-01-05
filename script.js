@@ -124,6 +124,35 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalCard = document.getElementById('projectModalCard');
     const modalContent = document.getElementById('projectModalContent');
     
+    // Store original dimensions of all cards
+    const originalCardSizes = new Map();
+    
+    // Function to store original card sizes
+    function storeOriginalSizes() {
+        const allCards = document.querySelectorAll('.project-card');
+        allCards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            originalCardSizes.set(card.id, {
+                width: rect.width,
+                height: rect.height
+            });
+        });
+    }
+    
+    // Store original sizes on page load
+    storeOriginalSizes();
+    
+    // Also store after window resize (in case layout changes)
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            if (!document.body.classList.contains('card-expanded')) {
+                storeOriginalSizes();
+            }
+        }, 250);
+    });
+    
     // Function to close expanded card
     function closeCard() {
         const expandedCard = document.querySelector('.project-card.expanded');
@@ -131,11 +160,18 @@ document.addEventListener('DOMContentLoaded', function() {
             expandedCard.classList.remove('expanded');
         }
         
-        // Unlock sizes of all cards
+        // Restore original sizes of all cards
         const allCards = document.querySelectorAll('.project-card');
         allCards.forEach(c => {
-            c.style.removeProperty('--locked-width');
-            c.style.removeProperty('--locked-height');
+            const originalSize = originalCardSizes.get(c.id);
+            if (originalSize) {
+                c.style.setProperty('--locked-width', `${originalSize.width}px`);
+                c.style.setProperty('--locked-height', `${originalSize.height}px`);
+            } else {
+                // Fallback: remove locked dimensions
+                c.style.removeProperty('--locked-width');
+                c.style.removeProperty('--locked-height');
+            }
         });
         
         // Hide modal
@@ -148,6 +184,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         document.body.classList.remove('card-expanded');
+        
+        // After a short delay, remove locked dimensions to allow natural resizing
+        setTimeout(() => {
+            allCards.forEach(c => {
+                c.style.removeProperty('--locked-width');
+                c.style.removeProperty('--locked-height');
+            });
+            // Re-store original sizes after cards have settled
+            storeOriginalSizes();
+        }, 600);
         
         // Clear modal content after animation
         setTimeout(() => {
@@ -168,11 +214,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Lock the size of all other cards BEFORE expanding
+        // Use stored original sizes if available, otherwise use current sizes
         allCards.forEach(c => {
             if (c !== card && !c.classList.contains('expanded')) {
-                const rect = c.getBoundingClientRect();
-                c.style.setProperty('--locked-width', `${rect.width}px`);
-                c.style.setProperty('--locked-height', `${rect.height}px`);
+                const originalSize = originalCardSizes.get(c.id);
+                if (originalSize) {
+                    // Use stored original size
+                    c.style.setProperty('--locked-width', `${originalSize.width}px`);
+                    c.style.setProperty('--locked-height', `${originalSize.height}px`);
+                } else {
+                    // Fallback: use current size
+                    const rect = c.getBoundingClientRect();
+                    c.style.setProperty('--locked-width', `${rect.width}px`);
+                    c.style.setProperty('--locked-height', `${rect.height}px`);
+                    // Store it for future use
+                    originalCardSizes.set(c.id, {
+                        width: rect.width,
+                        height: rect.height
+                    });
+                }
             }
         });
         
