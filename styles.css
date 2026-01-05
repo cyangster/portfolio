@@ -614,6 +614,14 @@ body.card-expanded .project-card:not(.expanded) {
     transform: none !important;
 }
 
+/* Keep locked sizes even after card-expanded is removed (until locks are explicitly removed) */
+.project-card:not(.expanded)[style*="--locked-width"] {
+    width: var(--locked-width) !important;
+    height: var(--locked-height) !important;
+    min-width: var(--locked-width) !important;
+    max-width: var(--locked-width) !important;
+}
+
 .project-card {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 12px;

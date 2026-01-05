@@ -156,25 +156,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to close expanded card
     function closeCard() {
         const expandedCard = document.querySelector('.project-card.expanded');
-        if (expandedCard) {
-            expandedCard.classList.remove('expanded');
-        }
         
-        // Restore original sizes of all cards
-        const allCards = document.querySelectorAll('.project-card');
-        allCards.forEach(c => {
-            const originalSize = originalCardSizes.get(c.id);
-            if (originalSize) {
-                c.style.setProperty('--locked-width', `${originalSize.width}px`);
-                c.style.setProperty('--locked-height', `${originalSize.height}px`);
-            } else {
-                // Fallback: remove locked dimensions
-                c.style.removeProperty('--locked-width');
-                c.style.removeProperty('--locked-height');
-            }
-        });
-        
-        // Hide modal
+        // Hide modal first
         if (modalContainer) {
             modalContainer.classList.remove('show');
         }
@@ -183,17 +166,28 @@ document.addEventListener('DOMContentLoaded', function() {
             backdropBlur.classList.remove('show');
         }
         
-        document.body.classList.remove('card-expanded');
+        // Remove expanded class from the card first (this makes it visible again)
+        if (expandedCard) {
+            expandedCard.classList.remove('expanded');
+        }
         
-        // After a short delay, remove locked dimensions to allow natural resizing
+        // Keep body.card-expanded temporarily to maintain other cards' locked sizes
+        // Remove it after a delay to allow expanded card to return to normal
         setTimeout(() => {
-            allCards.forEach(c => {
-                c.style.removeProperty('--locked-width');
-                c.style.removeProperty('--locked-height');
-            });
-            // Re-store original sizes after cards have settled
-            storeOriginalSizes();
-        }, 600);
+            document.body.classList.remove('card-expanded');
+            
+            // Remove locked dimensions from ALL cards after everything has settled
+            // This allows all cards to return to natural sizing
+            setTimeout(() => {
+                const allCards = document.querySelectorAll('.project-card');
+                allCards.forEach(c => {
+                    c.style.removeProperty('--locked-width');
+                    c.style.removeProperty('--locked-height');
+                });
+                // Re-store original sizes after cards have settled
+                storeOriginalSizes();
+            }, 400);
+        }, 200);
         
         // Clear modal content after animation
         setTimeout(() => {
