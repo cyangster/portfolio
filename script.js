@@ -117,35 +117,49 @@ function animateSkillBars() {
     });
 }
 
-// Modal card functionality
+// 3D Card expansion functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const modalOverlay = document.getElementById('projectModalOverlay');
+    const backdropBlur = document.getElementById('projectBackdropBlur');
     
-    // Function to close modal
-    function closeModal() {
-        document.querySelectorAll('.project-expanded-content.show').forEach(content => {
-            content.classList.remove('show');
-        });
-        if (modalOverlay) {
-            modalOverlay.classList.remove('show');
+    // Function to close expanded card
+    function closeCard() {
+        const expandedCard = document.querySelector('.project-card.expanded');
+        if (expandedCard) {
+            expandedCard.classList.remove('expanded');
         }
-        // Prevent body scroll when modal is open
-        document.body.style.overflow = '';
+        if (backdropBlur) {
+            backdropBlur.classList.remove('show');
+        }
+        document.body.classList.remove('card-expanded');
     }
     
-    // Function to open modal
-    function openModal(expandedContent) {
-        // Close any other open modals first
-        closeModal();
+    // Function to expand card
+    function expandCard(card) {
+        // Close any other expanded cards first
+        closeCard();
         
-        // Show overlay and modal
-        if (modalOverlay) {
-            modalOverlay.classList.add('show');
+        // Get the card's current position
+        const rect = card.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        
+        // Store original position for animation
+        card.style.setProperty('--original-top', `${rect.top + scrollTop}px`);
+        card.style.setProperty('--original-left', `${rect.left + scrollLeft}px`);
+        card.style.setProperty('--original-width', `${rect.width}px`);
+        card.style.setProperty('--original-height', `${rect.height}px`);
+        
+        // Show backdrop blur
+        if (backdropBlur) {
+            backdropBlur.classList.add('show');
         }
-        expandedContent.classList.add('show');
         
-        // Prevent body scroll when modal is open
-        document.body.style.overflow = 'hidden';
+        // Add expanded class to trigger CSS animation
+        card.classList.add('expanded');
+        document.body.classList.add('card-expanded');
+        
+        // Scroll to top to see the expanded card better
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     
     // Click on project title to expand
@@ -155,36 +169,36 @@ document.addEventListener('DOMContentLoaded', function() {
             e.stopPropagation();
             
             const projectId = this.getAttribute('data-project');
-            const expandedContent = document.getElementById(`${projectId}-expanded`);
+            const card = document.getElementById(`${projectId}-card`);
             
-            if (expandedContent) {
-                openModal(expandedContent);
+            if (card) {
+                expandCard(card);
             }
         });
     });
 
-    // Close modal when clicking the X button
+    // Close card when clicking the X button
     document.querySelectorAll('.collapse-btn').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            closeModal();
+            closeCard();
         });
     });
     
-    // Close modal when clicking the overlay
-    if (modalOverlay) {
-        modalOverlay.addEventListener('click', function(e) {
-            if (e.target === modalOverlay) {
-                closeModal();
+    // Close card when clicking the backdrop
+    if (backdropBlur) {
+        backdropBlur.addEventListener('click', function(e) {
+            if (e.target === backdropBlur) {
+                closeCard();
             }
         });
     }
     
-    // Close modal when pressing Escape key
+    // Close card when pressing Escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            closeModal();
+            closeCard();
         }
     });
 });
