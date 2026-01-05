@@ -175,20 +175,21 @@ document.addEventListener('DOMContentLoaded', function() {
             expandedCard.classList.remove('expanded');
         }
         
-        // Remove body.card-expanded after modal is hidden to allow card to return to normal
-        // The card will reappear at normal size instantly (no visible shrink)
+        // Remove body.card-expanded after modal is hidden to allow expanded card to return to normal
+        // The expanded card will reappear at normal size instantly (no visible shrink)
+        // Other cards keep their locked sizes
         setTimeout(() => {
             document.body.classList.remove('card-expanded');
             
-            // Remove locked dimensions from ALL cards after everything has settled
-            // This allows all cards to return to natural sizing
+            // Only remove locks from the expanded card (if it exists)
+            // Other cards keep their locked sizes to prevent them from changing
+            if (expandedCard) {
+                expandedCard.style.removeProperty('--locked-width');
+                expandedCard.style.removeProperty('--locked-height');
+            }
+            
+            // Re-store original sizes after the expanded card has settled
             setTimeout(() => {
-                const allCards = document.querySelectorAll('.project-card');
-                allCards.forEach(c => {
-                    c.style.removeProperty('--locked-width');
-                    c.style.removeProperty('--locked-height');
-                });
-                // Re-store original sizes after cards have settled
                 storeOriginalSizes();
             }, 300);
         }, 100);
@@ -213,23 +214,30 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Lock the size of all other cards BEFORE expanding
         // Use stored original sizes if available, otherwise use current sizes
+        // This ensures other cards don't change size when one expands
         allCards.forEach(c => {
             if (c !== card && !c.classList.contains('expanded')) {
-                const originalSize = originalCardSizes.get(c.id);
-                if (originalSize) {
-                    // Use stored original size
-                    c.style.setProperty('--locked-width', `${originalSize.width}px`);
-                    c.style.setProperty('--locked-height', `${originalSize.height}px`);
-                } else {
-                    // Fallback: use current size
-                    const rect = c.getBoundingClientRect();
-                    c.style.setProperty('--locked-width', `${rect.width}px`);
-                    c.style.setProperty('--locked-height', `${rect.height}px`);
-                    // Store it for future use
-                    originalCardSizes.set(c.id, {
-                        width: rect.width,
-                        height: rect.height
-                    });
+                // Check if card already has locks (from previous expansion)
+                const hasLock = c.style.getPropertyValue('--locked-width');
+                
+                if (!hasLock) {
+                    // Only set locks if they don't exist (preserve existing locks)
+                    const originalSize = originalCardSizes.get(c.id);
+                    if (originalSize) {
+                        // Use stored original size
+                        c.style.setProperty('--locked-width', `${originalSize.width}px`);
+                        c.style.setProperty('--locked-height', `${originalSize.height}px`);
+                    } else {
+                        // Fallback: use current size
+                        const rect = c.getBoundingClientRect();
+                        c.style.setProperty('--locked-width', `${rect.width}px`);
+                        c.style.setProperty('--locked-height', `${rect.height}px`);
+                        // Store it for future use
+                        originalCardSizes.set(c.id, {
+                            width: rect.width,
+                            height: rect.height
+                        });
+                    }
                 }
             }
         });
