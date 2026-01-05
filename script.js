@@ -152,19 +152,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to expand card
     function expandCard(card) {
-        // Close any other expanded cards first (but don't clear modal content yet)
-        const existingExpanded = document.querySelector('.project-card.expanded');
-        if (existingExpanded) {
-            existingExpanded.classList.remove('expanded');
-            if (modalContainer) {
-                modalContainer.classList.remove('show');
+        // Close any other expanded cards first - ensure only one card is expanded
+        const allCards = document.querySelectorAll('.project-card');
+        allCards.forEach(c => {
+            if (c !== card && c.classList.contains('expanded')) {
+                c.classList.remove('expanded');
             }
-            if (backdropBlur) {
-                backdropBlur.classList.remove('show');
-            }
+        });
+        
+        // Hide modal and backdrop if they're showing
+        if (modalContainer) {
+            modalContainer.classList.remove('show');
+        }
+        if (backdropBlur) {
+            backdropBlur.classList.remove('show');
         }
         
-        // Find the expanded content inside the card
+        // Find the expanded content inside the clicked card only
         const projectId = card.id.replace('-card', '');
         const expandedContent = document.getElementById(`${projectId}-expanded`);
         
@@ -186,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modalContent.innerHTML = '';
         modalContent.appendChild(clonedContent);
         
-        // Hide the original card (but keep it in grid flow)
+        // Hide ONLY the clicked card (but keep it in grid flow)
         card.classList.add('expanded');
         
         // Show backdrop first
@@ -209,16 +213,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Click on project title to expand
+    // Click on project title to expand - ensure only the clicked card expands
     document.querySelectorAll('.expand-card').forEach(title => {
         title.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             
+            // Get the specific card that was clicked
             const projectId = this.getAttribute('data-project');
             const card = document.getElementById(`${projectId}-card`);
             
             if (card) {
+                // Only expand this specific card
                 expandCard(card);
             }
         });
