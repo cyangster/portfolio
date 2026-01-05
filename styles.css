@@ -600,14 +600,18 @@ section {
 body.card-expanded .projects-grid {
     transition: none !important;
     grid-auto-rows: auto;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)) !important;
 }
 
-/* Ensure other cards don't resize when one is expanded */
+/* Lock other cards to their exact size when one is expanded */
 body.card-expanded .project-card:not(.expanded) {
-    width: 100% !important;
-    max-width: none !important;
-    min-width: 0 !important;
+    width: var(--locked-width, 100%) !important;
+    height: var(--locked-height, auto) !important;
+    min-width: var(--locked-width, auto) !important;
+    max-width: var(--locked-width, none) !important;
     flex: 0 0 auto !important;
+    transition: none !important;
+    transform: none !important;
 }
 
 .project-card {

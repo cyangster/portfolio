@@ -131,6 +131,13 @@ document.addEventListener('DOMContentLoaded', function() {
             expandedCard.classList.remove('expanded');
         }
         
+        // Unlock sizes of all cards
+        const allCards = document.querySelectorAll('.project-card');
+        allCards.forEach(c => {
+            c.style.removeProperty('--locked-width');
+            c.style.removeProperty('--locked-height');
+        });
+        
         // Hide modal
         if (modalContainer) {
             modalContainer.classList.remove('show');
@@ -157,6 +164,15 @@ document.addEventListener('DOMContentLoaded', function() {
         allCards.forEach(c => {
             if (c !== card && c.classList.contains('expanded')) {
                 c.classList.remove('expanded');
+            }
+        });
+        
+        // Lock the size of all other cards BEFORE expanding
+        allCards.forEach(c => {
+            if (c !== card && !c.classList.contains('expanded')) {
+                const rect = c.getBoundingClientRect();
+                c.style.setProperty('--locked-width', `${rect.width}px`);
+                c.style.setProperty('--locked-height', `${rect.height}px`);
             }
         });
         
