@@ -176,22 +176,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Remove body.card-expanded after modal is hidden to allow expanded card to return to normal
-        // The expanded card will reappear at normal size instantly (no visible shrink)
+        // The expanded card will shrink back to normal size with animation
         // Other cards keep their locked sizes
         setTimeout(() => {
             document.body.classList.remove('card-expanded');
             
             // Only remove locks from the expanded card (if it exists)
-            // Other cards keep their locked sizes to prevent them from changing
+            // This allows it to shrink back to normal size with animation
             if (expandedCard) {
+                // Add shrinking class for animation
+                expandedCard.classList.add('shrinking');
+                // Remove locks to allow natural sizing
                 expandedCard.style.removeProperty('--locked-width');
                 expandedCard.style.removeProperty('--locked-height');
+                
+                // Remove shrinking class after animation
+                setTimeout(() => {
+                    expandedCard.classList.remove('shrinking');
+                }, 500);
             }
             
-            // Re-store original sizes after the expanded card has settled
+            // Re-store original sizes after the shrink animation completes
             setTimeout(() => {
                 storeOriginalSizes();
-            }, 300);
+            }, 500);
         }, 100);
         
         // Clear modal content after animation
