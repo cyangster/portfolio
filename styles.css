@@ -596,9 +596,18 @@ section {
     transition: none;
 }
 
-/* Disable transitions on grid when card is expanded */
+/* Prevent grid recalculation when card is expanded */
 body.card-expanded .projects-grid {
     transition: none !important;
+    grid-auto-rows: auto;
+}
+
+/* Ensure other cards don't resize when one is expanded */
+body.card-expanded .project-card:not(.expanded) {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    flex: 0 0 auto !important;
 }
 
 .project-card {
@@ -618,12 +627,19 @@ body.card-expanded .project-card:not(.expanded) {
 
 /* Placeholder to maintain grid layout when card is expanded */
 .project-card-placeholder {
-    visibility: hidden;
-    pointer-events: none;
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: transparent;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    transition: none !important;
+    animation: none !important;
+    grid-column: auto;
+    grid-row: auto;
+    display: block !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
 }
 
 /* Backdrop blur for page when card is expanded */

@@ -145,8 +145,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Close any other expanded cards first
         closeCard();
         
-        // Get the card's current position and dimensions
+        // Get the card's current position and dimensions BEFORE any changes
         const rect = card.getBoundingClientRect();
+        const computedStyle = window.getComputedStyle(card);
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
         
@@ -156,27 +157,46 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.setProperty('--original-width', `${rect.width}px`);
         card.style.setProperty('--original-height', `${rect.height}px`);
         
-        // Create placeholder to maintain grid layout
+        // Create placeholder that exactly matches the card's grid space
         placeholder = document.createElement('div');
         placeholder.className = 'project-card-placeholder';
+        
+        // Clone the card's computed dimensions exactly
         placeholder.style.width = rect.width + 'px';
         placeholder.style.height = rect.height + 'px';
         placeholder.style.minHeight = rect.height + 'px';
+        placeholder.style.maxHeight = rect.height + 'px';
+        placeholder.style.margin = computedStyle.margin;
+        placeholder.style.padding = computedStyle.padding;
+        placeholder.style.border = computedStyle.border;
+        placeholder.style.borderWidth = computedStyle.borderWidth;
+        placeholder.style.boxSizing = computedStyle.boxSizing;
         placeholder.style.visibility = 'hidden';
         placeholder.style.pointerEvents = 'none';
-        placeholder.style.flexShrink = '0';
+        placeholder.style.opacity = '0';
+        placeholder.style.position = 'relative';
+        placeholder.style.zIndex = '-1';
+        placeholder.style.display = 'block';
         
-        // Insert placeholder in the same position as the card (before it becomes fixed)
-        card.parentNode.insertBefore(placeholder, card);
+        // Insert placeholder in the exact same position BEFORE card becomes fixed
+        const parent = card.parentNode;
+        parent.insertBefore(placeholder, card);
         
-        // Show backdrop blur
+        // Force multiple synchronous layout recalculations to ensure placeholder is rendered
+        void placeholder.offsetHeight;
+        void placeholder.offsetWidth;
+        void parent.offsetHeight;
+        
+        // Show backdrop blur first
         if (backdropBlur) {
             backdropBlur.classList.add('show');
         }
         
-        // Add expanded class to trigger CSS animation (this makes card position: fixed)
-        card.classList.add('expanded');
-        document.body.classList.add('card-expanded');
+        // Small delay to ensure placeholder is fully in the layout before card becomes fixed
+        setTimeout(() => {
+            card.classList.add('expanded');
+            document.body.classList.add('card-expanded');
+        }, 0);
     }
     
     // Click on project title to expand
