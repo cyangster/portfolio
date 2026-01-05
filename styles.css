@@ -616,6 +616,16 @@ body.card-expanded .project-card:not(.expanded) {
     transition: none !important;
 }
 
+/* Placeholder to maintain grid layout when card is expanded */
+.project-card-placeholder {
+    visibility: hidden;
+    pointer-events: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
 /* Backdrop blur for page when card is expanded */
 .project-backdrop-blur {
     position: fixed;

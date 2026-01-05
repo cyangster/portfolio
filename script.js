@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Remove placeholder if it exists
             if (placeholder && placeholder.parentNode) {
-                placeholder.parentNode.replaceChild(expandedCard, placeholder);
+                placeholder.parentNode.removeChild(placeholder);
                 placeholder = null;
             }
         }
@@ -161,10 +161,12 @@ document.addEventListener('DOMContentLoaded', function() {
         placeholder.className = 'project-card-placeholder';
         placeholder.style.width = rect.width + 'px';
         placeholder.style.height = rect.height + 'px';
+        placeholder.style.minHeight = rect.height + 'px';
         placeholder.style.visibility = 'hidden';
         placeholder.style.pointerEvents = 'none';
+        placeholder.style.flexShrink = '0';
         
-        // Insert placeholder in the same position
+        // Insert placeholder in the same position as the card (before it becomes fixed)
         card.parentNode.insertBefore(placeholder, card);
         
         // Show backdrop blur
@@ -172,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
             backdropBlur.classList.add('show');
         }
         
-        // Add expanded class to trigger CSS animation
+        // Add expanded class to trigger CSS animation (this makes card position: fixed)
         card.classList.add('expanded');
         document.body.classList.add('card-expanded');
     }
