@@ -117,44 +117,37 @@ function animateSkillBars() {
     });
 }
 
-// 3D Card expansion functionality
+// 3D Card expansion functionality - New approach using separate modal
 document.addEventListener('DOMContentLoaded', function() {
     const backdropBlur = document.getElementById('projectBackdropBlur');
-    let placeholder = null;
+    const modalContainer = document.getElementById('projectModalContainer');
+    const modalCard = document.getElementById('projectModalCard');
+    const modalContent = document.getElementById('projectModalContent');
     
     // Function to close expanded card
     function closeCard() {
         const expandedCard = document.querySelector('.project-card.expanded');
         if (expandedCard) {
-            // Phase 1: Shrink first (if expanding class exists)
-            if (expandedCard.classList.contains('expanding')) {
-                expandedCard.classList.remove('expanding');
-                
-                // Phase 2: After shrink, remove expanded class and placeholder
-                setTimeout(() => {
-                    expandedCard.classList.remove('expanded');
-                    
-                    // Remove placeholder if it exists
-                    if (placeholder && placeholder.parentNode) {
-                        placeholder.parentNode.removeChild(placeholder);
-                        placeholder = null;
-                    }
-                }, 400); // Wait for shrink animation
-            } else {
-                // If not expanding, just remove immediately
-                expandedCard.classList.remove('expanded');
-                
-                // Remove placeholder if it exists
-                if (placeholder && placeholder.parentNode) {
-                    placeholder.parentNode.removeChild(placeholder);
-                    placeholder = null;
-                }
-            }
+            expandedCard.classList.remove('expanded');
         }
+        
+        // Hide modal
+        if (modalContainer) {
+            modalContainer.classList.remove('show');
+        }
+        
         if (backdropBlur) {
             backdropBlur.classList.remove('show');
         }
+        
         document.body.classList.remove('card-expanded');
+        
+        // Clear modal content after animation
+        setTimeout(() => {
+            if (modalContent) {
+                modalContent.innerHTML = '';
+            }
+        }, 500);
     }
     
     // Function to expand card
@@ -162,68 +155,47 @@ document.addEventListener('DOMContentLoaded', function() {
         // Close any other expanded cards first
         closeCard();
         
-        // Get the card's current position and dimensions BEFORE any changes
-        const rect = card.getBoundingClientRect();
-        const computedStyle = window.getComputedStyle(card);
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        // Find the expanded content inside the card
+        const projectId = card.id.replace('-card', '');
+        const expandedContent = document.getElementById(`${projectId}-expanded`);
         
-        // Store original position and dimensions for animation
-        card.style.setProperty('--original-top', `${rect.top + scrollTop}px`);
-        card.style.setProperty('--original-left', `${rect.left + scrollLeft}px`);
-        card.style.setProperty('--original-width', `${rect.width}px`);
-        card.style.setProperty('--original-height', `${rect.height}px`);
+        if (!expandedContent || !modalContent) return;
         
-        // Store original dimensions as CSS custom properties for phase 1
-        card.dataset.originalWidth = rect.width;
-        card.dataset.originalHeight = rect.height;
+        // Clone the expanded content to the modal
+        const clonedContent = expandedContent.cloneNode(true);
+        clonedContent.style.display = 'block';
+        clonedContent.style.maxHeight = 'none';
+        clonedContent.style.opacity = '1';
+        clonedContent.style.visibility = 'visible';
+        clonedContent.style.padding = '0';
         
-        // Create placeholder that exactly matches the card's grid space
-        placeholder = document.createElement('div');
-        placeholder.className = 'project-card-placeholder';
+        // Remove the collapse button from clone (we have one in modal)
+        const cloneCollapseBtn = clonedContent.querySelector('.collapse-btn');
+        if (cloneCollapseBtn) {
+            cloneCollapseBtn.remove();
+        }
         
-        // Clone the card's computed dimensions exactly
-        placeholder.style.width = rect.width + 'px';
-        placeholder.style.height = rect.height + 'px';
-        placeholder.style.minHeight = rect.height + 'px';
-        placeholder.style.maxHeight = rect.height + 'px';
-        placeholder.style.margin = computedStyle.margin;
-        placeholder.style.padding = computedStyle.padding;
-        placeholder.style.border = computedStyle.border;
-        placeholder.style.borderWidth = computedStyle.borderWidth;
-        placeholder.style.boxSizing = computedStyle.boxSizing;
-        placeholder.style.visibility = 'hidden';
-        placeholder.style.pointerEvents = 'none';
-        placeholder.style.opacity = '0';
-        placeholder.style.position = 'relative';
-        placeholder.style.zIndex = '-1';
-        placeholder.style.display = 'block';
+        // Clear and add cloned content to modal
+        modalContent.innerHTML = '';
+        modalContent.appendChild(clonedContent);
         
-        // Insert placeholder in the exact same position BEFORE card becomes fixed
-        const parent = card.parentNode;
-        parent.insertBefore(placeholder, card);
+        // Hide the original card (but keep it in grid flow)
+        card.classList.add('expanded');
         
-        // Force multiple synchronous layout recalculations to ensure placeholder is rendered
-        void placeholder.offsetHeight;
-        void placeholder.offsetWidth;
-        void parent.offsetHeight;
-        
-        // Show backdrop blur first
+        // Show backdrop and modal
         if (backdropBlur) {
             backdropBlur.classList.add('show');
         }
         
-        // Phase 1: Make card fixed and move to center instantly (removes from grid flow immediately)
-        card.classList.add('expanded');
         document.body.classList.add('card-expanded');
         
-        // Force a reflow to ensure the card is removed from grid before expanding
-        void card.offsetHeight;
-        
-        // Phase 2: After card is removed from flow, expand the size
-        setTimeout(() => {
-            card.classList.add('expanding');
-        }, 50); // Small delay to ensure position change is applied
+        // Show modal with animation
+        if (modalContainer) {
+            // Small delay to ensure content is ready
+            requestAnimationFrame(() => {
+                modalContainer.classList.add('show');
+            });
+        }
     }
     
     // Click on project title to expand
@@ -241,13 +213,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Close card when clicking the X button
-    document.querySelectorAll('.collapse-btn').forEach(button => {
-        button.addEventListener('click', function(e) {
+    // Close card when clicking the X button (both original and modal)
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('collapse-btn') || e.target.classList.contains('modal-close-btn')) {
             e.preventDefault();
             e.stopPropagation();
             closeCard();
-        });
+        }
     });
     
     // Close card when clicking the backdrop

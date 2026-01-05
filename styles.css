@@ -665,47 +665,70 @@ body.card-expanded .project-card:not(.expanded) {
     pointer-events: all;
 }
 
-/* Expanded card state - 3D lift effect */
-/* Phase 1: Move to center and become fixed (happens instantly, removes from grid) */
+/* Hide original card when expanded (but keep it in grid flow) */
 .project-card.expanded {
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) translateZ(150px) scale(1) !important;
-    width: var(--original-width) !important;
-    max-width: var(--original-width) !important;
-    height: var(--original-height) !important;
-    max-height: var(--original-height) !important;
-    z-index: 2000 !important;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    overflow: hidden;
-    perspective: 1000px;
-    transition: transform 0.3s ease-out,
-                width 0s,
-                height 0s,
-                max-width 0s,
-                max-height 0s;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
 }
 
-/* Phase 2: Expand size (happens after position change) */
-.project-card.expanded.expanding {
-    transform: translate(-50%, -50%) translateZ(150px) scale(1.15) !important;
-    width: 90% !important;
-    max-width: 1000px !important;
-    max-height: 90vh !important;
-    height: auto !important;
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5), 0 0 0 10000px rgba(0, 0, 0, 0.4);
+/* Project Modal Container - Separate overlay */
+.project-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.project-modal-container.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+/* Modal Card - 3D lift effect */
+.project-modal-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.98);
     border-radius: 20px;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s,
-                box-shadow 0.4s ease 0.1s,
-                width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s,
-                max-width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s,
-                max-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s,
-                height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s,
-                border-radius 0.4s ease 0.1s;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 1000px;
+    max-height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transform: translateZ(150px) scale(0.7);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.4s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.project-modal-container.show .project-modal-card {
+    transform: translateZ(150px) scale(1);
+    opacity: 1;
+}
+
+/* Modal Content */
+.project-modal-content {
+    padding: 2rem;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 10;
 }
 
 /* Prevent body scroll when card is expanded */
@@ -790,11 +813,7 @@ body.card-expanded {
     color: #1b5e20;
 }
 
-/* Hide regular card content when expanded */
-.project-card.expanded .project-img,
-.project-card.expanded .project-content {
-    display: none;
-}
+/* No need to hide content - card itself is hidden */
 
 /* Expanded Content - Inside the card */
 .project-expanded-content {
@@ -811,6 +830,16 @@ body.card-expanded {
     opacity: 1;
     padding: 2rem;
     visibility: visible;
+}
+
+/* Expanded content in modal (always visible) */
+.project-modal-content .project-expanded-content {
+    max-height: none !important;
+    opacity: 1 !important;
+    padding: 0 !important;
+    visibility: visible !important;
+    border-top: none !important;
+    display: block !important;
 }
 
 /* Custom scrollbar for expanded card */
