@@ -166,13 +166,17 @@ document.addEventListener('DOMContentLoaded', function() {
             backdropBlur.classList.remove('show');
         }
         
-        // Remove expanded class from the card first (this makes it visible again)
+        // Hide modal and backdrop first (instant, no animation)
+        // This makes the expanded view disappear immediately
+        
+        // Keep body.card-expanded temporarily to maintain other cards' locked sizes
+        // Remove expanded class from the card (this makes it visible again, but it's still hidden by modal)
         if (expandedCard) {
             expandedCard.classList.remove('expanded');
         }
         
-        // Keep body.card-expanded temporarily to maintain other cards' locked sizes
-        // Remove it after a delay to allow expanded card to return to normal
+        // Remove body.card-expanded after modal is hidden to allow card to return to normal
+        // The card will reappear at normal size instantly (no visible shrink)
         setTimeout(() => {
             document.body.classList.remove('card-expanded');
             
@@ -186,8 +190,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 // Re-store original sizes after cards have settled
                 storeOriginalSizes();
-            }, 400);
-        }, 200);
+            }, 300);
+        }, 100);
         
         // Clear modal content after animation
         setTimeout(() => {

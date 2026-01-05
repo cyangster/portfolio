@@ -677,11 +677,22 @@ body.card-expanded .project-card:not(.expanded) {
     pointer-events: all;
 }
 
+/* Hide backdrop instantly when closing */
+body:not(.card-expanded) .project-backdrop-blur {
+    transition: opacity 0s, visibility 0s;
+}
+
 /* Hide original card when expanded (but keep it in grid flow) */
 .project-card.expanded {
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
+    transition: visibility 0s, opacity 0s;
+}
+
+/* When closing, make the transition instant to avoid seeing shrink */
+.project-card:not(.expanded) {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Project Modal Container - Separate overlay */
@@ -707,6 +718,11 @@ body.card-expanded .project-card:not(.expanded) {
     pointer-events: all;
 }
 
+/* When closing, hide modal instantly to avoid seeing shrink */
+.project-modal-container:not(.show) {
+    transition: opacity 0s, visibility 0s;
+}
+
 /* Modal Card - 3D lift effect */
 .project-modal-card {
     position: relative;
@@ -729,6 +745,14 @@ body.card-expanded .project-card:not(.expanded) {
 .project-modal-container.show .project-modal-card {
     transform: translateZ(150px) scale(1);
     opacity: 1;
+}
+
+/* Hide modal card instantly when closing (no shrink animation) */
+.project-modal-container:not(.show) .project-modal-card {
+    transition: transform 0s,
+                opacity 0s;
+    transform: translateZ(150px) scale(0.7);
+    opacity: 0;
 }
 
 /* Modal Content */
