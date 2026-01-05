@@ -600,7 +600,7 @@ section {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     transform-style: preserve-3d;
 }
@@ -643,6 +643,12 @@ section {
     overflow-y: auto;
     overflow-x: hidden;
     perspective: 1000px;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                box-shadow 0.6s ease,
+                width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+                max-width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+                max-height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+                border-radius 0.6s ease;
 }
 
 /* Prevent body scroll when card is expanded */
