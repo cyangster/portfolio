@@ -119,8 +119,8 @@ function animateSkillBars() {
 
 // Expandable card functionality
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.expand-card').forEach(button => {
-        button.addEventListener('click', function(e) {
+    document.querySelectorAll('.expand-card').forEach(title => {
+        title.addEventListener('click', function(e) {
             e.preventDefault();
             
             const projectId = this.getAttribute('data-project');
@@ -132,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (expandedContent.classList.contains('show')) {
                     expandedContent.classList.remove('show');
                     projectCard.classList.remove('expanded');
-                    this.textContent = 'Read More';
                 } else {
                     // Close any other expanded cards first
                     document.querySelectorAll('.project-expanded-content.show').forEach(content => {
@@ -141,14 +140,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.querySelectorAll('.project-card.expanded').forEach(card => {
                         card.classList.remove('expanded');
                     });
-                    document.querySelectorAll('.expand-card').forEach(btn => {
-                        btn.textContent = 'Read More';
-                    });
                     
                     // Expand this card
                     expandedContent.classList.add('show');
                     projectCard.classList.add('expanded');
-                    this.textContent = 'Show Less';
                     
                     // Scroll to the card smoothly
                     setTimeout(() => {
@@ -161,16 +156,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Collapse button functionality
     document.querySelectorAll('.collapse-btn').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
             const expandedContent = this.closest('.project-expanded-content');
             const projectCard = this.closest('.project-card');
-            const expandButton = projectCard.querySelector('.expand-card');
             
             expandedContent.classList.remove('show');
             projectCard.classList.remove('expanded');
-            if (expandButton) {
-                expandButton.textContent = 'Read More';
-            }
         });
     });
 });

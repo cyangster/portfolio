@@ -641,6 +641,14 @@ section {
     margin-bottom: 0.5rem;
     color: #1b5e20;
     font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.project-title:hover {
+    color: #2e7d32;
+    transform: translateX(5px);
 }
 
 .project-subtitle {
@@ -688,6 +696,7 @@ section {
     transition: max-height 0.5s ease, opacity 0.4s ease, padding 0.4s ease;
     padding: 0 2rem;
     position: relative;
+    visibility: hidden;
 }
 
 .project-expanded-content.show {
@@ -695,6 +704,7 @@ section {
     opacity: 1;
     padding: 2rem;
     border-top: 2px solid #e0e0e0;
+    visibility: visible;
 }
 
 .collapse-btn {
