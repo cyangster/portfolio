@@ -721,7 +721,7 @@ body.card-expanded .project-card:not(.expanded) {
 
 /* Modal Content */
 .project-modal-content {
-    padding: 2rem;
+    padding: 0;
 }
 
 .modal-close-btn {
@@ -836,10 +836,40 @@ body.card-expanded {
 .project-modal-content .project-expanded-content {
     max-height: none !important;
     opacity: 1 !important;
-    padding: 0 !important;
+    padding: 2rem !important;
     visibility: visible !important;
     border-top: none !important;
     display: block !important;
+    overflow: visible !important;
+}
+
+/* Ensure all child elements in modal are visible */
+.project-modal-content .expanded-image,
+.project-modal-content .expanded-description,
+.project-modal-content .expanded-links,
+.project-modal-content .expanded-title {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Custom scrollbar for modal card */
+.project-modal-card::-webkit-scrollbar {
+    width: 8px;
+}
+
+.project-modal-card::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
+
+.project-modal-card::-webkit-scrollbar-thumb {
+    background: rgba(46, 125, 50, 0.3);
+    border-radius: 10px;
+}
+
+.project-modal-card::-webkit-scrollbar-thumb:hover {
+    background: rgba(46, 125, 50, 0.5);
 }
 
 /* Custom scrollbar for expanded card */

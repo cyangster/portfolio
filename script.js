@@ -152,22 +152,29 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to expand card
     function expandCard(card) {
-        // Close any other expanded cards first
-        closeCard();
+        // Close any other expanded cards first (but don't clear modal content yet)
+        const existingExpanded = document.querySelector('.project-card.expanded');
+        if (existingExpanded) {
+            existingExpanded.classList.remove('expanded');
+            if (modalContainer) {
+                modalContainer.classList.remove('show');
+            }
+            if (backdropBlur) {
+                backdropBlur.classList.remove('show');
+            }
+        }
         
         // Find the expanded content inside the card
         const projectId = card.id.replace('-card', '');
         const expandedContent = document.getElementById(`${projectId}-expanded`);
         
-        if (!expandedContent || !modalContent) return;
+        if (!expandedContent || !modalContent) {
+            console.error('Expanded content or modal content not found');
+            return;
+        }
         
         // Clone the expanded content to the modal
         const clonedContent = expandedContent.cloneNode(true);
-        clonedContent.style.display = 'block';
-        clonedContent.style.maxHeight = 'none';
-        clonedContent.style.opacity = '1';
-        clonedContent.style.visibility = 'visible';
-        clonedContent.style.padding = '0';
         
         // Remove the collapse button from clone (we have one in modal)
         const cloneCollapseBtn = clonedContent.querySelector('.collapse-btn');
@@ -182,18 +189,22 @@ document.addEventListener('DOMContentLoaded', function() {
         // Hide the original card (but keep it in grid flow)
         card.classList.add('expanded');
         
-        // Show backdrop and modal
+        // Show backdrop first
         if (backdropBlur) {
             backdropBlur.classList.add('show');
         }
         
         document.body.classList.add('card-expanded');
         
-        // Show modal with animation
+        // Force a reflow to ensure content is ready
+        void modalContent.offsetHeight;
+        
+        // Show modal with animation - use double requestAnimationFrame to ensure content is rendered
         if (modalContainer) {
-            // Small delay to ensure content is ready
             requestAnimationFrame(() => {
-                modalContainer.classList.add('show');
+                requestAnimationFrame(() => {
+                    modalContainer.classList.add('show');
+                });
             });
         }
     }
