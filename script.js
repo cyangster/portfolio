@@ -157,9 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add expanded class to trigger CSS animation
         card.classList.add('expanded');
         document.body.classList.add('card-expanded');
-        
-        // Scroll to top to see the expanded card better
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     
     // Click on project title to expand
