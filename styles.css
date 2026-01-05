@@ -666,26 +666,46 @@ body.card-expanded .project-card:not(.expanded) {
 }
 
 /* Expanded card state - 3D lift effect */
+/* Phase 1: Move to center and become fixed (happens instantly, removes from grid) */
 .project-card.expanded {
-    position: fixed;
+    position: fixed !important;
     top: 50% !important;
     left: 50% !important;
+    transform: translate(-50%, -50%) translateZ(150px) scale(1) !important;
+    width: var(--original-width) !important;
+    max-width: var(--original-width) !important;
+    height: var(--original-height) !important;
+    max-height: var(--original-height) !important;
+    z-index: 2000 !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    perspective: 1000px;
+    transition: transform 0.3s ease-out,
+                width 0s,
+                height 0s,
+                max-width 0s,
+                max-height 0s;
+}
+
+/* Phase 2: Expand size (happens after position change) */
+.project-card.expanded.expanding {
     transform: translate(-50%, -50%) translateZ(150px) scale(1.15) !important;
     width: 90% !important;
     max-width: 1000px !important;
     max-height: 90vh !important;
-    z-index: 2000 !important;
+    height: auto !important;
     box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5), 0 0 0 10000px rgba(0, 0, 0, 0.4);
     border-radius: 20px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    perspective: 1000px;
-    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                box-shadow 0.6s ease,
-                width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
-                max-width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
-                max-height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
-                border-radius 0.6s ease;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s,
+                box-shadow 0.4s ease 0.1s,
+                width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s,
+                max-width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s,
+                max-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s,
+                height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s,
+                border-radius 0.4s ease 0.1s;
 }
 
 /* Prevent body scroll when card is expanded */

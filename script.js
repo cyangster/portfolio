@@ -126,12 +126,29 @@ document.addEventListener('DOMContentLoaded', function() {
     function closeCard() {
         const expandedCard = document.querySelector('.project-card.expanded');
         if (expandedCard) {
-            expandedCard.classList.remove('expanded');
-            
-            // Remove placeholder if it exists
-            if (placeholder && placeholder.parentNode) {
-                placeholder.parentNode.removeChild(placeholder);
-                placeholder = null;
+            // Phase 1: Shrink first (if expanding class exists)
+            if (expandedCard.classList.contains('expanding')) {
+                expandedCard.classList.remove('expanding');
+                
+                // Phase 2: After shrink, remove expanded class and placeholder
+                setTimeout(() => {
+                    expandedCard.classList.remove('expanded');
+                    
+                    // Remove placeholder if it exists
+                    if (placeholder && placeholder.parentNode) {
+                        placeholder.parentNode.removeChild(placeholder);
+                        placeholder = null;
+                    }
+                }, 400); // Wait for shrink animation
+            } else {
+                // If not expanding, just remove immediately
+                expandedCard.classList.remove('expanded');
+                
+                // Remove placeholder if it exists
+                if (placeholder && placeholder.parentNode) {
+                    placeholder.parentNode.removeChild(placeholder);
+                    placeholder = null;
+                }
             }
         }
         if (backdropBlur) {
@@ -151,11 +168,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
         
-        // Store original position for animation
+        // Store original position and dimensions for animation
         card.style.setProperty('--original-top', `${rect.top + scrollTop}px`);
         card.style.setProperty('--original-left', `${rect.left + scrollLeft}px`);
         card.style.setProperty('--original-width', `${rect.width}px`);
         card.style.setProperty('--original-height', `${rect.height}px`);
+        
+        // Store original dimensions as CSS custom properties for phase 1
+        card.dataset.originalWidth = rect.width;
+        card.dataset.originalHeight = rect.height;
         
         // Create placeholder that exactly matches the card's grid space
         placeholder = document.createElement('div');
@@ -192,11 +213,17 @@ document.addEventListener('DOMContentLoaded', function() {
             backdropBlur.classList.add('show');
         }
         
-        // Small delay to ensure placeholder is fully in the layout before card becomes fixed
+        // Phase 1: Make card fixed and move to center instantly (removes from grid flow immediately)
+        card.classList.add('expanded');
+        document.body.classList.add('card-expanded');
+        
+        // Force a reflow to ensure the card is removed from grid before expanding
+        void card.offsetHeight;
+        
+        // Phase 2: After card is removed from flow, expand the size
         setTimeout(() => {
-            card.classList.add('expanded');
-            document.body.classList.add('card-expanded');
-        }, 0);
+            card.classList.add('expanding');
+        }, 50); // Small delay to ensure position change is applied
     }
     
     // Click on project title to expand
