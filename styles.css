@@ -593,6 +593,12 @@ section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2rem;
+    transition: none;
+}
+
+/* Disable transitions on grid when card is expanded */
+body.card-expanded .projects-grid {
+    transition: none !important;
 }
 
 .project-card {
@@ -603,6 +609,11 @@ section {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     transform-style: preserve-3d;
+}
+
+/* Disable transitions on other cards when one is expanded */
+body.card-expanded .project-card:not(.expanded) {
+    transition: none !important;
 }
 
 /* Backdrop blur for page when card is expanded */
