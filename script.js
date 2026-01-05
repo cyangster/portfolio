@@ -120,12 +120,19 @@ function animateSkillBars() {
 // 3D Card expansion functionality
 document.addEventListener('DOMContentLoaded', function() {
     const backdropBlur = document.getElementById('projectBackdropBlur');
+    let placeholder = null;
     
     // Function to close expanded card
     function closeCard() {
         const expandedCard = document.querySelector('.project-card.expanded');
         if (expandedCard) {
             expandedCard.classList.remove('expanded');
+            
+            // Remove placeholder if it exists
+            if (placeholder && placeholder.parentNode) {
+                placeholder.parentNode.replaceChild(expandedCard, placeholder);
+                placeholder = null;
+            }
         }
         if (backdropBlur) {
             backdropBlur.classList.remove('show');
@@ -138,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Close any other expanded cards first
         closeCard();
         
-        // Get the card's current position
+        // Get the card's current position and dimensions
         const rect = card.getBoundingClientRect();
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
@@ -148,6 +155,17 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.setProperty('--original-left', `${rect.left + scrollLeft}px`);
         card.style.setProperty('--original-width', `${rect.width}px`);
         card.style.setProperty('--original-height', `${rect.height}px`);
+        
+        // Create placeholder to maintain grid layout
+        placeholder = document.createElement('div');
+        placeholder.className = 'project-card-placeholder';
+        placeholder.style.width = rect.width + 'px';
+        placeholder.style.height = rect.height + 'px';
+        placeholder.style.visibility = 'hidden';
+        placeholder.style.pointerEvents = 'none';
+        
+        // Insert placeholder in the same position
+        card.parentNode.insertBefore(placeholder, card);
         
         // Show backdrop blur
         if (backdropBlur) {
