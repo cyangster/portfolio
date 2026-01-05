@@ -117,55 +117,75 @@ function animateSkillBars() {
     });
 }
 
-// Expandable card functionality
+// Modal card functionality
 document.addEventListener('DOMContentLoaded', function() {
+    const modalOverlay = document.getElementById('projectModalOverlay');
+    
+    // Function to close modal
+    function closeModal() {
+        document.querySelectorAll('.project-expanded-content.show').forEach(content => {
+            content.classList.remove('show');
+        });
+        if (modalOverlay) {
+            modalOverlay.classList.remove('show');
+        }
+        // Prevent body scroll when modal is open
+        document.body.style.overflow = '';
+    }
+    
+    // Function to open modal
+    function openModal(expandedContent) {
+        // Close any other open modals first
+        closeModal();
+        
+        // Show overlay and modal
+        if (modalOverlay) {
+            modalOverlay.classList.add('show');
+        }
+        expandedContent.classList.add('show');
+        
+        // Prevent body scroll when modal is open
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Click on project title to expand
     document.querySelectorAll('.expand-card').forEach(title => {
         title.addEventListener('click', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             
             const projectId = this.getAttribute('data-project');
             const expandedContent = document.getElementById(`${projectId}-expanded`);
-            const projectCard = this.closest('.project-card');
             
             if (expandedContent) {
-                // Toggle the expanded state
-                if (expandedContent.classList.contains('show')) {
-                    expandedContent.classList.remove('show');
-                    projectCard.classList.remove('expanded');
-                } else {
-                    // Close any other expanded cards first
-                    document.querySelectorAll('.project-expanded-content.show').forEach(content => {
-                        content.classList.remove('show');
-                    });
-                    document.querySelectorAll('.project-card.expanded').forEach(card => {
-                        card.classList.remove('expanded');
-                    });
-                    
-                    // Expand this card
-                    expandedContent.classList.add('show');
-                    projectCard.classList.add('expanded');
-                    
-                    // Scroll to the card smoothly
-                    setTimeout(() => {
-                        projectCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }, 100);
-                }
+                openModal(expandedContent);
             }
         });
     });
 
-    // Collapse button functionality
+    // Close modal when clicking the X button
     document.querySelectorAll('.collapse-btn').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            
-            const expandedContent = this.closest('.project-expanded-content');
-            const projectCard = this.closest('.project-card');
-            
-            expandedContent.classList.remove('show');
-            projectCard.classList.remove('expanded');
+            closeModal();
         });
+    });
+    
+    // Close modal when clicking the overlay
+    if (modalOverlay) {
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+    }
+    
+    // Close modal when pressing Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
     });
 });
 

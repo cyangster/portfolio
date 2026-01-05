@@ -604,11 +604,25 @@ section {
     position: relative;
 }
 
-.project-card.expanded {
-    grid-column: 1 / -1;
-    max-width: 900px;
-    margin: 0 auto;
+/* Modal overlay backdrop */
+.project-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.project-modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 .project-card:not(.expanded):hover {
@@ -688,64 +702,98 @@ section {
     color: #1b5e20;
 }
 
-/* Expanded Content */
+/* Expanded Content - Modal Style */
 .project-expanded-content {
-    max-height: 0;
-    overflow: hidden;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.7);
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 0;
+    z-index: 2001;
     opacity: 0;
-    transition: max-height 0.5s ease, opacity 0.4s ease, padding 0.4s ease;
-    padding: 0 2rem;
-    position: relative;
     visibility: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .project-expanded-content.show {
-    max-height: 3000px;
     opacity: 1;
-    padding: 2rem;
-    border-top: 2px solid #e0e0e0;
     visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Custom scrollbar for modal */
+.project-expanded-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.project-expanded-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
+
+.project-expanded-content::-webkit-scrollbar-thumb {
+    background: rgba(46, 125, 50, 0.3);
+    border-radius: 10px;
+}
+
+.project-expanded-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(46, 125, 50, 0.5);
 }
 
 .collapse-btn {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: none;
-    border: none;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #e0e0e0;
     font-size: 2rem;
-    color: #999;
+    color: #666;
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 10;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .collapse-btn:hover {
-    color: #333;
-    background: rgba(0, 0, 0, 0.05);
-    transform: rotate(90deg);
+    color: #1b5e20;
+    background: rgba(46, 125, 50, 0.1);
+    border-color: #2e7d32;
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 6px 16px rgba(46, 125, 50, 0.2);
 }
 
 .expanded-title {
-    font-size: 1.8rem;
+    font-size: 2rem;
     color: #1b5e20;
     margin-bottom: 1.5rem;
     font-weight: 600;
-    padding-right: 3rem;
+    padding: 2rem 3.5rem 0 2rem;
+    margin-top: 0;
 }
 
 .expanded-image {
-    width: 100%;
+    width: calc(100% - 4rem);
     max-height: 400px;
     overflow: hidden;
-    border-radius: 8px;
-    margin-bottom: 2rem;
+    border-radius: 12px;
+    margin: 0 2rem 2rem 2rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 .expanded-image img {
@@ -758,6 +806,7 @@ section {
     color: #555;
     line-height: 1.8;
     margin-bottom: 2rem;
+    padding: 0 2rem;
 }
 
 .expanded-description p {
@@ -770,8 +819,9 @@ section {
     gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
-    padding-top: 1rem;
+    padding: 1.5rem 2rem 2rem 2rem;
     border-top: 1px solid #e0e0e0;
+    margin-top: 1rem;
 }
 
 .project-link-expanded {
