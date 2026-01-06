@@ -267,10 +267,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Get the project title from the card
-        const projectTitle = card.querySelector('.project-title');
-        const titleText = projectTitle ? projectTitle.textContent : '';
-        
         // Clone the expanded content to the modal
         const clonedContent = expandedContent.cloneNode(true);
         
@@ -280,14 +276,8 @@ document.addEventListener('DOMContentLoaded', function() {
             cloneCollapseBtn.remove();
         }
         
-        // Create title element for modal
-        const modalTitle = document.createElement('h3');
-        modalTitle.className = 'modal-project-title';
-        modalTitle.textContent = titleText;
-        
-        // Clear and add title and cloned content to modal
+        // Clear and add cloned content to modal
         modalContent.innerHTML = '';
-        modalContent.appendChild(modalTitle);
         modalContent.appendChild(clonedContent);
         
         // Hide ONLY the clicked card (but keep it in grid flow)
