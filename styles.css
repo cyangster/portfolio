@@ -293,6 +293,21 @@ section {
     letter-spacing: -0.5px;
 }
 
+.hero-title .linkedin-link {
+    display: inline-block;
+    margin-left: 0.75rem;
+    color: #0077b5;
+    font-size: 2rem;
+    vertical-align: middle;
+    text-decoration: none;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.hero-title .linkedin-link:hover {
+    transform: scale(1.1);
+    color: #005885;
+}
+
 .hero-subtitle {
     font-size: 1.4rem;
     margin-bottom: 0.3rem;
@@ -1300,6 +1315,11 @@ footer {
     
     .hero-title {
         font-size: 2.5rem;
+    }
+    
+    .hero-title .linkedin-link {
+        font-size: 1.6rem;
+        margin-left: 0.5rem;
     }
     
     .projects-grid {
