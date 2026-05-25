@@ -527,6 +527,112 @@ section {
     border-radius: 10px;
     width: 0%;
     transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Work Experience */
+.work-experience-section {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    background-image: linear-gradient(135deg, rgba(224, 242, 241, 0.5) 0%, rgba(232, 245, 233, 0.5) 100%);
+    margin-bottom: 2.5rem;
+}
+
+.experience-card {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 10px;
+    border-left: 4px solid #4caf50;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.experience-card:last-child {
+    margin-bottom: 0;
+}
+
+.experience-role {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #1b5e20;
+    margin-bottom: 0.35rem;
+}
+
+.experience-org,
+.experience-meta {
+    color: #555;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+}
+
+.experience-bullets {
+    margin: 1rem 0 0 1.25rem;
+    color: #444;
+    line-height: 1.65;
+}
+
+.experience-bullets li {
+    margin-bottom: 0.6rem;
+}
+
+.experience-bullets li:last-child {
+    margin-bottom: 0;
+}
+
+/* Skill Categories */
+.skills-categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+}
+
+.skill-category {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid #4caf50;
+}
+
+.skill-category-full {
+    grid-column: 1 / -1;
+}
+
+.skill-category-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1b5e20;
+    margin-bottom: 0.5rem;
+}
+
+.skill-category-text {
+    color: #555;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Project icon placeholders */
+.project-img-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e8f5e9 0%, #e0f2f1 100%);
+    min-height: 180px;
+}
+
+.project-img-icon i {
+    font-size: 4rem;
+    color: #2e7d32;
+    opacity: 0.85;
+}
+
+.expanded-icon {
+    min-height: 200px;
+    border-radius: 8px;
     position: relative;
     overflow: hidden;
 }
@@ -1309,6 +1415,15 @@ footer {
     .skills-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem;
+    }
+
+    .skills-categories {
+        grid-template-columns: 1fr;
+    }
+
+    .work-experience-section,
+    .experience-card {
+        padding: 1.25rem;
     }
     
     .timeline-entry {
