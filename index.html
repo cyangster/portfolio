@@ -178,7 +178,7 @@
             <div class="section-nav">
                 <button class="nav-btn active" id="showProjects">
                     <i class="fas fa-code"></i>
-                    Projects <span class="count-badge">5</span>
+                    Projects <span class="count-badge">4</span>
                 </button>
                 <button class="nav-btn" id="showCertifications">
                     <i class="fas fa-certificate"></i>
@@ -245,29 +245,7 @@
                         </div>
                     </div>
 
-                    <!-- Project 4 - AI Academic Advisor Chatbot -->
-                    <div class="project-card" id="mcas-chatbot-card">
-                        <div class="project-img">
-                            <img src="https://cdn.glitch.global/56504f83-839d-433a-919f-9169cfde4c5e/chatbot.png?v=1729187785430" alt="AI Academic Advisor Chatbot">
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title expand-card" data-project="mcas-chatbot">AI Academic Advisor Chatbot</h3>
-                            <p class="project-subtitle">AWS Lambda, AWS Lex</p>
-                            <p class="project-description">A conversational AI assistant that helps students query degree credit requirements, reducing manual advising lookups using serverless cloud architecture.</p>
-                        </div>
-                        <div class="project-expanded-content" id="mcas-chatbot-expanded">
-                            <button class="collapse-btn">&times;</button>
-                            <div class="expanded-image">
-                                <img src="https://cdn.glitch.global/56504f83-839d-433a-919f-9169cfde4c5e/chatbot.png?v=1729187785430" alt="AI Academic Advisor Chatbot">
-                            </div>
-                            <div class="expanded-description">
-                                <p>Built a conversational AI assistant for students to query degree credit requirements and graduation progress, reducing manual advising lookups.</p>
-                                <p>Implemented with AWS Lambda and Amazon Lex, including intelligent error handling to guide users toward valid inputs before returning credit requirement summaries.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 5 - Data Analysis on Dialects of English -->
+                    <!-- Project 3 - Data Analysis on Dialects of English -->
                     <div class="project-card" id="dialects-analysis-card">
                         <div class="project-img">
                             <img src="images/dialects-project.png" alt="Data Analysis on Dialects of English">
@@ -275,6 +253,7 @@
                         <div class="project-content">
                             <h3 class="project-title expand-card" data-project="dialects-analysis">Data Analysis on the Dialects of English</h3>
                             <p class="project-description">A comprehensive analysis of regional variations in American English using machine learning and statistical methods on nearly five million survey responses...</p>
+                            <p class="project-note"><i class="fas fa-info-circle"></i> Switch to <strong>light mode</strong> in the dashboard settings to view text clearly.</p>
                             <a href="https://dialectsofenglishcapstone2025.streamlit.app/" target="_blank" class="project-link">View Dashboard</a>
                         </div>
                         <!-- Expanded Content -->
@@ -293,6 +272,8 @@
                                 <p>We further apply SHAP-based feature attribution to interpret the XGBoost model, and use interpretable logistic regression feature rankings to construct a region prediction quiz hosted on our dashboard. Our results show that American dialects are measurable yet increasingly blended due to broader patterns of linguistic convergence.</p>
                                 
                                 <p>Our quantitative analysis and public interactive dashboard provide an accessible framework for exploring linguistic diversity in the continental United States.</p>
+
+                                <p class="project-note"><i class="fas fa-info-circle"></i> <strong>Note:</strong> When viewing the dashboard, open the site settings and switch to <strong>light mode</strong> so text is readable.</p>
                             </div>
                             <div class="expanded-links">
                                 <a href="https://dialectsofenglishcapstone2025.streamlit.app/" target="_blank" class="project-link-expanded">
@@ -305,27 +286,24 @@
                         </div>
                     </div>
 
-                    <!-- Project 6 - Logistic Regression -->
-                    <div class="project-card" id="logistic-regression-card">
+                    <!-- Project 4 - AI Academic Advisor Chatbot -->
+                    <div class="project-card" id="mcas-chatbot-card">
                         <div class="project-img">
-                            <img src="https://cdn.glitch.global/56504f83-839d-433a-919f-9169cfde4c5e/graph.png?v=1729190065699" alt="Logistic Regression Graphs">
+                            <img src="images/aichatbot.png" alt="AI Academic Advisor Chatbot">
                         </div>
                         <div class="project-content">
-                            <h3 class="project-title expand-card" data-project="logistic-regression">Logistic Regression Test</h3>
-                            <p class="project-description">In this project, I used a loan dataset and by utilizing Python, Pandas, NumPy, and scikit I was able to train the given data and test it to see the difference in the scores of machine learning algorithms...</p>
+                            <h3 class="project-title expand-card" data-project="mcas-chatbot">AI Academic Advisor Chatbot</h3>
+                            <p class="project-subtitle">AWS Lambda, AWS Lex</p>
+                            <p class="project-description">A conversational AI assistant that helps students query degree credit requirements, reducing manual advising lookups using serverless cloud architecture.</p>
                         </div>
-                        <!-- Expanded Content -->
-                        <div class="project-expanded-content" id="logistic-regression-expanded">
+                        <div class="project-expanded-content" id="mcas-chatbot-expanded">
                             <button class="collapse-btn">&times;</button>
                             <div class="expanded-image">
-                                <img src="https://cdn.glitch.global/56504f83-839d-433a-919f-9169cfde4c5e/graph.png?v=1729190065699" alt="Logistic Regression Graphs">
+                                <img src="images/aichatbot.png" alt="AI Academic Advisor Chatbot">
                             </div>
                             <div class="expanded-description">
-                                <p>In this project, I used a loan dataset and by utilizing Python, Pandas, NumPy, and scikit-learn I was able to train the given data and test it to see the difference in the scores of machine learning algorithms.</p>
-                                
-                                <p>I compared the baseline by selecting a random baseline and then the majority baseline and compared them by using logistic regression to see the best score. Logistic regression is well-suited for binary classification problems like loan approval prediction, offering both predictive power and interpretability.</p>
-                                
-                                <p>I trained the logistic regression model on the dataset, after performing necessary preprocessing steps such as handling missing values, encoding categorical variables, and scaling numerical features. This comprehensive approach ensured the model could accurately predict loan outcomes based on the provided features.</p>
+                                <p>Built a conversational AI assistant for students to query degree credit requirements and graduation progress, reducing manual advising lookups.</p>
+                                <p>Implemented with AWS Lambda and Amazon Lex, including intelligent error handling to guide users toward valid inputs before returning credit requirement summaries.</p>
                             </div>
                         </div>
                     </div>
