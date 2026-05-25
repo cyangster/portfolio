@@ -325,8 +325,24 @@ section {
 
 .hero-location {
     font-size: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0.4rem;
     color: #777;
+}
+
+.hero-email {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+.hero-email a {
+    color: #2e7d32;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.hero-email a:hover {
+    color: #1b5e20;
+    text-decoration: underline;
 }
 
 .profile-container {
